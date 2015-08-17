@@ -23,67 +23,64 @@ Example
     var output = jsTemplate(templateHrml, data);
     console.log(output); // Hello <b>You!!</b>
 
+#### template1
 
-<table>
-<tr><th>Template<th>Data<th>output</tr>
-<tr>
-  <td><pre><code>
-&lt;div id="&lt;%= id %>" class="&lt;%=(i % 2 == 1 ? "even" : "")%>">'
-  &lt;div class="grid_1 alpha right">
-    &lt;img class="righted" src="&lt;%= profileImageUrl %>"/>
-  &lt;/div>
-  &lt;div class="grid_6 omega contents">
-    &lt;a href="/&lt;%= fromUser %>">&lt;%= fromUser %>&lt;/a>
-  &lt;/div>
-&lt;/div>
-&lt;% for (var i = 0; i &lt; users.length; i++) { %>
-  &lt;a href="&lt;%=users[i].url%>">&lt;%= users[i].name %>&lt;/a>
-&lt;% } %>
-  </code></pre></td>
-  <td><pre><code>
-{
-  id: 'myid',
-  i: 11,
-  profileImageUrl: 'myurl',
-  fromUser: 'me',
-  users: [
-    {name: "John", url: "john.com"},
-    {name: "Jane", url: "jane.com"}
-  ]
-};
-  </code></pre></td>
-  <td><pre><code>
-&lt;div id="myid" class="even">
-  &lt;div class="grid_1 alpha right">
-    &lt;img class="righted" src="myurl"/>
-  &lt;/div>
-  &lt;div class="grid_6 omega contents">
-    &lt;a href="/me">me&lt;/a>:&lt;/b>
-  &lt;/div>
-&lt;/div>
-  &lt;a href="john.com">John&lt;/a>
-  &lt;a href="jane.com">Jane&lt;/a>
-  </code></pre></td>
-</tr>
-<tr>
-  <td><pre><code>
-&lt;div>
-  &lt;%= include("spec/test-include.html", data) %>
-&lt;/div>
-  </code></pre></td>
-  <td><pre><code>
-{
-  users: [
-    {name: "John", url: "john.com"},
-    {name: "Jane", url: "jane.com"}
-  ]
-};
-  </code></pre></td>
-  <td><pre><code>
-&lt;div>
-  &lt;a href="john.com">John&lt;/a>
-  &lt;a href="jane.com">Jane&lt;/a>
-&lt;/div>
-  </code></pre></td>
-</tr>
-</table>
+    <div id="<%= id %>" class="<%=(i % 2 == 1 ? "even" : "")%>">'
+      <div class="grid_1 alpha right">
+        <img class="righted" src="<%= profileImageUrl %>"/>
+      </div>
+      <div class="grid_6 omega contents">
+        <a href="/<%= fromUser %>"><%= fromUser %></a>
+      </div>
+    </div>
+    <% for (var i = 0; i < users.length; i++) { %>
+      <a href="<%=users[i].url%>"><%= users[i].name %></a>
+    <% } %>
+
+#### data1
+
+    {
+      id: 'myid',
+      i: 11,
+      profileImageUrl: 'myurl',
+      fromUser: 'me',
+      users: [
+        {name: "John", url: "john.com"},
+        {name: "Jane", url: "jane.com"}
+      ]
+    };
+
+#### jsTemplate(template1, data1)
+
+    <div id="myid" class="even">
+      <div class="grid_1 alpha right">
+        <img class="righted" src="myurl"/>
+      </div>
+      <div class="grid_6 omega contents">
+        <a href="/me">me</a>:</b>
+      </div>
+    </div>
+      <a href="john.com">John</a>
+      <a href="jane.com">Jane</a>
+
+#### template2
+
+    <div>
+      <%= include("spec/test-include.html", data) %>
+    </div>
+
+#### data2
+
+    {
+      users: [
+        {name: "John", url: "john.com"},
+        {name: "Jane", url: "jane.com"}
+      ]
+    };
+
+#### jsTemplate(template2, data2)
+
+    <div>
+      <a href="john.com">John</a>
+      <a href="jane.com">Jane</a>
+    </div>
