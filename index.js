@@ -1,4 +1,5 @@
 'use strict';
+var fs = require('fs');
 var templateCache = {}; //cache by template
 
 var getLineNoAdded = function(str) {
@@ -37,7 +38,7 @@ var templateFunc = function(str) {
       'try{',
         'var p=[];',
         'var LINE=function(no){lineNo=no};',
-        "with(obj){p.push('" ,
+        "with(data){p.push('" ,
           str.replace(/'(?=[^%]*%>)/g, "\t")
             .split("'").join("\\'")
             .split("\t").join("'")
@@ -51,13 +52,15 @@ var templateFunc = function(str) {
       '  throw e;',
       '}'
     ].join('');
-    func = new Function("obj", strFunc);
+    func = new Function("data", strFunc);
     templateCache[str] = func;
   }
   return func;
 };
 
 var jsTemplate = function(str, data) {
+  fs.existsSync(str) && (str = fs.readFileSync(str, 'utf8'));
+  data.include = jsTemplate;  // include(path, data) function
   var template = templateFunc(str);
   try {
     var output = template(data);
