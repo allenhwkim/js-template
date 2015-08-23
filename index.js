@@ -59,9 +59,7 @@ var templateFunc = function(str) {
 };
 
 var jsTemplate = function(str, data) {
-  if (str.match(/\.[a-z]+$/i)) {
-    str = fs.readFileSync(str, 'utf8');
-  }
+  fs.existsSync(str) && (str = fs.readFileSync(str, 'utf8'));
   data.include = jsTemplate;  // include(path, data) function
   var template = templateFunc(str);
   try {
@@ -69,11 +67,7 @@ var jsTemplate = function(str, data) {
     output = setWhiteSpaces(output, false);
     return output;
   } catch(e) {
-    if (e.code == 'ENOENT') {
-      console.log('current path: ' + (data.basePath || process.cwd()));
-    } else {
-      console.log("jsTemplate error in line", e.lineNo);
-    }
+    console.log("jsTemplate error in line", e.lineNo);
     throw e;
   }
 };
